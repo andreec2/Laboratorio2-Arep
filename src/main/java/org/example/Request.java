@@ -7,7 +7,7 @@ public class Request {
 
     private final String method;
     private final String path;
-    private final String body;
+    private String body;
 
     private final Map<String, String> queryParams;
     
@@ -63,5 +63,8 @@ public class Request {
 
     public String getValues(String key) {
         return queryParams.getOrDefault(key, null);
+    }
+    public void setQueryParams(String n, String name){
+        body = name;
     }
 }

@@ -1,4 +1,4 @@
-import org.example.HttpServer;
+import org.example.*;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,13 +16,13 @@ public class ClientHandlerTest {
 
     private Thread serverThread;
     @Test
-    public void setUp() {
+    public void setUp() throws IOException {
         // Iniciar el servidor en un hilo separado
-        serverThread = new Thread(() -> HttpServer.startServer());
-        serverThread.start();
+       try {
+            serverThread = new Thread(() -> HttpServer.startServer());
+            serverThread.start();
 
-        // Esperar un poco para asegurarnos de que el servidor se inicie
-        try {
+            // Esperar un poco para asegurarnos de que el servidor se inicie
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -99,4 +101,54 @@ public class ClientHandlerTest {
             assertTrue(responseLine.contains("404 Not Found")); // Verificar que contiene "404 Not Found"
         }
     }
+    @Test
+    void testGetRoutesInitialization() throws IOException {
+        ClientHandler.startRoutes();
+        Map<String, BiConsumer<Request, Response>> routes = ClientHandler.getRoutes();
+        for (String key : routes.keySet()) {
+            System.out.println("sapooooo" + key);
+        }
+
+        assertTrue(routes.containsKey("/app/helloWord"));
+        assertTrue(routes.containsKey("/app/hello"));
+        assertTrue(routes.containsKey("/app/pi"));
+    }
+
+    @Test
+    public void testHelloWorldRoute() throws IOException {
+        ClientHandler.startRoutes();
+        Request req = new Request("GET", "/app/helloWord");
+
+        MockResponse res = new MockResponse();
+        ClientHandler.getRoutes().get("/app/helloWord").accept(req, res);
+        System.out.println(ClientHandler.getRoutes().keySet());
+        System.out.println("este es el body: " + res.getBody());
+        assertEquals("Hello, world!", res.getBody());
+    }
+
+    @Test
+    public void testHelloPiRoute() throws IOException {
+        ClientHandler.startRoutes();
+        Request req = new Request("GET", "/app/hello/pi");
+
+        MockResponse res = new MockResponse();
+        ClientHandler.getRoutes().get("/app/pi").accept(req, res);
+        System.out.println(ClientHandler.getRoutes().keySet());
+        System.out.println("este es el body: " + res.getBody());
+        assertEquals("3.141592653589793", res.getBody());
+    }
+
+    @Test
+    public void testHelloNameRoute() throws IOException {
+        ClientHandler.startRoutes();
+        Request req = new Request("GET", "/app/hello", null, "Andres");
+
+        MockResponse res = new MockResponse();
+        ClientHandler.getRoutes().get("/app/hello").accept(req, res);
+        System.out.println(ClientHandler.getRoutes().keySet());
+        System.out.println("este es el body: " + res.getBody());
+        assertEquals("Hello, Andres!", res.getBody());
+    }
+
+
 }

@@ -13,6 +13,7 @@ public class HttpServer {
     public static void main(String[] args) throws IOException, URISyntaxException {
         boolean running = true;
 
+
         try {
             serverSocket = new ServerSocket(35000);
         } catch (IOException e) {
@@ -30,7 +31,7 @@ public class HttpServer {
                 //Esto es parte de la mausquerramienta xd
                 //threadPool.execute(new ClientHandler(clientSocket));
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
-                startRoutes();
+                clientHandler.startRoutes();
                 clientHandler.run();
             } catch (IOException e) {
                 System.err.println("Accept failed.");
@@ -38,28 +39,7 @@ public class HttpServer {
             }
         }
     }
-    public static void startRoutes() throws IOException {
-        ClientHandler.get("/app/helloWord", (req, res) -> {
-            try {
-                res.send("Hello, world!");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
-        ClientHandler.get("/app/hello", (req, res) -> {
-            String name = req.getValues("name");
-            res.sendJson(name == null ? "Hola, visitante!" : "Hola, " + name + "!");
-        });
-
-        ClientHandler.get("/app/pi", (req, res) -> {
-            try {
-                res.send(String.valueOf(Math.PI));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
 
     public static void startServer(){
         try {

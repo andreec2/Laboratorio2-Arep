@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-class ClientHandler  {
+public class ClientHandler  {
     private final Socket clientSocket;
     private static final String BASE_DIRECTORY = ClientHandler.class.getClassLoader().getResource("public").getPath();
     private static final Map<String, BiConsumer<Request, Response>> getRoutes = new HashMap<>();
@@ -92,6 +92,10 @@ class ClientHandler  {
         }
     }
 
+    public static Map<String, BiConsumer<Request, Response>> getRoutes() {
+        return getRoutes;
+    }
+
     private String handleBody(BufferedReader in) throws IOException {
         String body = "";
         String line;
@@ -165,5 +169,27 @@ class ClientHandler  {
             out.write(errorResponse.getBytes(StandardCharsets.UTF_8));
             out.flush();
         }
+    }
+    public static void startRoutes() throws IOException {
+        get("/app/helloWord", (req, res) -> {
+            try {
+                res.send("Hello, world!");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        get("/app/hello", (req, res) -> {
+            String name = req.getValues("name");
+            res.sendJson(name == null ? "Hola, visitante!" : "Hola, " + name + "!");
+        });
+
+        get("/app/pi", (req, res) -> {
+            try {
+                res.send(String.valueOf(Math.PI));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
