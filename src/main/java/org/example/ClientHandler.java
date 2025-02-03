@@ -181,7 +181,11 @@ public class ClientHandler  {
 
         get("/app/hello", (req, res) -> {
             String name = req.getValues("name");
-            res.sendJson(name == null ? "Hola, visitante!" : "Hola, " + name + "!");
+            try {
+                res.sendJson(name == null ? "Hola, visitante!" : "Hola, " + name + "!");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         get("/app/pi", (req, res) -> {

@@ -64,7 +64,7 @@ public class Request {
     public String getValues(String key) {
         return queryParams.getOrDefault(key, null);
     }
-    public void setQueryParams(String n, String name){
-        body = name;
+    public void setQueryParams(String key, String value) {
+        this.queryParams.put(key, value);
     }
 }

@@ -141,13 +141,24 @@ public class ClientHandlerTest {
     @Test
     public void testHelloNameRoute() throws IOException {
         ClientHandler.startRoutes();
+
+        // Crear la solicitud con parámetros de consulta correctos
         Request req = new Request("GET", "/app/hello", null, "Andres");
+        req.setQueryParams("name", "Andres"); // Parámetro de consulta adecuado
+        System.out.println("esta es la query: " + req.getValues("name"));
 
         MockResponse res = new MockResponse();
-        ClientHandler.getRoutes().get("/app/hello").accept(req, res);
+
+        // Usar la clave correcta para buscar la ruta en el mapa
+        String routeKey = "/app/hello";
+        assertNotNull(ClientHandler.getRoutes().get(routeKey), "La ruta no está registrada");
+
+        ClientHandler.getRoutes().get(routeKey).accept(req, res);
+
         System.out.println(ClientHandler.getRoutes().keySet());
-        System.out.println("este es el body: " + res.getBody());
-        assertEquals("Hello, Andres!", res.getBody());
+        System.out.println("Este es el body: " + res.getBody());
+
+        assertEquals("Hola, Andres!", res.getBody()); // Ajuste del mensaje esperado
     }
 
 

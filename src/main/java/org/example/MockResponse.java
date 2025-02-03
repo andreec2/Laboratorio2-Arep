@@ -16,6 +16,11 @@ public class MockResponse extends Response{
         outputStream.write(data.getBytes());
     }
 
+    @Override
+    public void sendJson(String data) throws IOException {
+        outputStream.write(data.getBytes());
+    }
+
     public String getBody(){
         return outputStream.toString();
     }

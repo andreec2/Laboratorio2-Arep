@@ -25,7 +25,7 @@ public class Response {
 
     }
 
-    public void sendJson(String jsonBody) {
+    public void sendJson(String jsonBody) throws IOException {
         try {
             String response = "HTTP/1.1 200 OK\r\n" +
                     "Content-Type: application/json\r\n" +
