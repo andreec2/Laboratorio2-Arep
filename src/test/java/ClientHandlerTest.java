@@ -105,9 +105,6 @@ public class ClientHandlerTest {
     void testGetRoutesInitialization() throws IOException {
         ClientHandler.startRoutes();
         Map<String, BiConsumer<Request, Response>> routes = ClientHandler.getRoutes();
-        for (String key : routes.keySet()) {
-            System.out.println("sapooooo" + key);
-        }
 
         assertTrue(routes.containsKey("/app/helloWord"));
         assertTrue(routes.containsKey("/app/hello"));
@@ -129,7 +126,7 @@ public class ClientHandlerTest {
     @Test
     public void testHelloPiRoute() throws IOException {
         ClientHandler.startRoutes();
-        Request req = new Request("GET", "/app/hello/pi");
+        Request req = new Request("GET", "/app/app/pi");
 
         MockResponse res = new MockResponse();
         ClientHandler.getRoutes().get("/app/pi").accept(req, res);
