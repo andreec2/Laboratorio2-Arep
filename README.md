@@ -87,9 +87,6 @@ Para ejecutar este proyecto, necesitarás tener instalado:
 
      ![image](https://github.com/user-attachments/assets/ac327b5b-85d3-4a90-84b4-841ce691bf11)
 
-
-    
-
 ## Ejecutar las pruebas
 
 Se implementaron pruebas unitarias para los métodos de manejo de solicitudes HTTP (GET, POST, PUT, DELETE) en el servidor. Estas pruebas se realizaron utilizando JUnit y Mockito para simular las solicitudes y validar las respuestas.
@@ -99,12 +96,35 @@ Para ejecutar las pruebas:
    ```bash
    mvn test
    ```
-![{87FFD62C-2B50-419C-AE5E-D8CE2538F098}](https://github.com/user-attachments/assets/da9c1640-7dfa-44d5-b70d-bf02130bc98d)
+![image](https://github.com/user-attachments/assets/167b96c5-1f11-4786-a4bb-3b04b5e43c4c)
 
-2. Prueba para metodo Get
+![image](https://github.com/user-attachments/assets/b0f3182c-5346-4d78-b5bf-311731fa41af)
 
-![{FD29DCC4-CDBD-4797-A6B9-F57E79499770}](https://github.com/user-attachments/assets/00d69ae9-c4e1-4088-9a6c-6093511a78e2)
+2. Pruebas de extremo a extremo
 
+   - testGetRoutesInitialization()
+     
+  Propósito: Verifica que las rutas /app/helloWord, /app/hello y /app/pi están correctamente registradas en el servidor. 
+
+  ![image](https://github.com/user-attachments/assets/927fe4dd-52c1-4528-8e81-35739174bb5f)
+
+  - testHelloWorldRoute()
+
+   Propósito: Verifica que la ruta /app/helloWord devuelve "Hello, world!".
+
+   ![image](https://github.com/user-attachments/assets/a1a7d453-3867-4cfd-9fbd-16a7fc6a36e8)
+
+   - testHelloPiRoute()
+
+   Propósito: Verifica que la ruta /app/pi devuelve "3.141592653589793" (el valor de π).
+
+   ![image](https://github.com/user-attachments/assets/c2ce88e6-8ea6-44f0-8f6d-09455eea53fc)
+
+   - testHelloNameRoute()
+
+   Propósito: Verifica que la ruta /app/hello devuelve "Hola, Andres!" cuando se envía el parámetro name=Andres.
+
+   ![image](https://github.com/user-attachments/assets/24574f37-335f-43b3-aba0-6db194f67fd8)
 
 ## Built With
 * [Maven](https://maven.apache.org/) - Dependency Management
