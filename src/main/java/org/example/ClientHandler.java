@@ -128,10 +128,14 @@ public class ClientHandler  {
         out.write(response.getBytes(StandardCharsets.UTF_8));
         out.flush();
     }
+    private static InputStream staticFiles(String path){
+        InputStream inputStream = ClientHandler.class.getClassLoader().getResourceAsStream("public" + File.separator + path);
+        return inputStream;
+    }
 
     private static void fileHandler(String path, String query, OutputStream out) throws IOException {
         try {
-            InputStream inputStream = ClientHandler.class.getClassLoader().getResourceAsStream("public" + File.separator + path);
+            InputStream inputStream = staticFiles(path);
 
             if (inputStream != null) {
                 byte[] fileBytes = inputStream.readAllBytes();
